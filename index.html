@@ -71,13 +71,6 @@ button{
 
 .hidden{display:none}
 
-.tip{
-  margin-top:25px;
-  padding:12px;
-  background:#f1f8f6;
-  font-size:13px;
-}
-
 footer{
   margin-top:25px;
   font-size:12px;
@@ -99,6 +92,9 @@ Measures logical reasoning, decision-making, and problem-solving skills based on
   <button class="level-btn" onclick="startQuiz('easy')">Easy</button>
   <button class="level-btn" onclick="startQuiz('normal')">Normal</button>
   <button class="level-btn" onclick="startQuiz('hard')">Hard</button>
+  
+  <!-- Back button on main menu -->
+  <button class="back" onclick="window.location.href='https://jrguirjenccdpps-hue.github.io/Civil-Service-Exam-Reviewer/'">Back to Main Menu</button>
 </div>
 
 <div id="quiz" class="hidden">
@@ -108,15 +104,7 @@ Measures logical reasoning, decision-making, and problem-solving skills based on
 
   <button class="nav" onclick="nextQ()">Next</button>
   <button class="reset" onclick="resetQ()">Reset</button>
-  <button class="back" onclick="backMenu()">Back</button>
-</div>
-
-<div class="tip">
-<b>TIP:</b> Help keep this reviewer updated and free ❤️<br>
-GCash: <b>09652367470</b>
-<button onclick="copyText('09652367470')">Copy</button><br>
-PalawanPay: <b>639652367470</b>
-<button onclick="copyText('639652367470')">Copy</button>
+  <button class="back" onclick="window.location.href='https://jrguirjenccdpps-hue.github.io/Civil-Service-Exam-Reviewer/'">Back to Main Menu</button>
 </div>
 
 <footer>
@@ -254,7 +242,6 @@ function check(b,n){
 }
 function nextQ(){if(i<set.length-1){i++;load()}else alert("Level complete!")}
 function resetQ(){i=0;load()}
-function backMenu(){quiz.classList.add("hidden");menu.classList.remove("hidden")}
 </script>
 
 </body>
