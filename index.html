@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Civil Service Reviewer – Analytical Ability</title>
+
+<style>
+:root{
+  --primary:#0b3d2e;
+  --light:#e9f3ef;
+  --accent:#0b5ed7;
+  --danger:#dc3545;
+  --gray:#6c757d;
+}
+
+body{
+  margin:0;
+  font-family:Segoe UI,Arial,sans-serif;
+  background:#f4f6f8;
+}
+
+.wrapper{
+  max-width:900px;
+  margin:auto;
+  background:#fff;
+  padding:22px;
+}
+
+h1{
+  text-align:center;
+  color:var(--primary);
+  font-size:clamp(24px,6vw,34px);
+  margin-bottom:6px;
+}
+
+.desc{
+  text-align:center;
+  font-size:14px;
+  color:#333;
+  margin-bottom:20px;
+}
+
+button{
+  border:none;
+  border-radius:6px;
+  padding:10px 16px;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.level-btn{
+  background:var(--primary);
+  color:#fff;
+  margin:5px;
+}
+
+.choice{
+  width:100%;
+  display:block;
+  background:var(--light);
+  margin:6px 0;
+}
+
+.nav{background:var(--accent);color:#fff}
+.reset{background:var(--danger);color:#fff}
+.back{background:var(--gray);color:#fff}
+
+.correct{background:#198754!important;color:#fff}
+.wrong{background:#dc3545!important;color:#fff}
+
+.hidden{display:none}
+
+.tip{
+  margin-top:25px;
+  padding:12px;
+  background:#f1f8f6;
+  font-size:13px;
+}
+
+footer{
+  margin-top:25px;
+  font-size:12px;
+  text-align:center;
+  color:#555;
+}
+</style>
+</head>
+
+<body>
+<div class="wrapper">
+
+<h1>Civil Service Reviewer<br>Analytical Ability</h1>
+<div class="desc">
+Measures logical reasoning, decision-making, and problem-solving skills based on scenarios commonly encountered in government and office settings.
+</div>
+
+<div id="menu" style="text-align:center">
+  <button class="level-btn" onclick="startQuiz('easy')">Easy</button>
+  <button class="level-btn" onclick="startQuiz('normal')">Normal</button>
+  <button class="level-btn" onclick="startQuiz('hard')">Hard</button>
+</div>
+
+<div id="quiz" class="hidden">
+  <h3 id="question"></h3>
+  <div id="choices"></div>
+  <p id="explain"></p>
+
+  <button class="nav" onclick="nextQ()">Next</button>
+  <button class="reset" onclick="resetQ()">Reset</button>
+  <button class="back" onclick="backMenu()">Back</button>
+</div>
+
+<div class="tip">
+<b>TIP:</b> Help keep this reviewer updated and free ❤️<br>
+GCash: <b>09652367470</b>
+<button onclick="copyText('09652367470')">Copy</button><br>
+PalawanPay: <b>639652367470</b>
+<button onclick="copyText('639652367470')">Copy</button>
+</div>
+
+<footer>
+Disclaimer: This reviewer is for educational purposes only.<br>
+Created by: <b>Joshua Guirjen</b>
+</footer>
+
+</div>
+
+<script>
+let set=[],i=0;
+
+const q={
+easy:[
+{q:"All employees wear ID. Ana is an employee.",c:["Ana wears ID","Ana is a guard","Ana manages IDs","Cannot tell"],a:0,e:"All employees wear ID."},
+{q:"2, 4, 6, 8, ?",c:["9","10","12","14"],a:1,e:"Add 2."},
+{q:"Which is different?",c:["Chair","Table","Spoon","Desk"],a:2,e:"Spoon is not furniture."},
+{q:"If today is Monday, what day after 2 days?",c:["Tuesday","Wednesday","Thursday","Friday"],a:1,e:"Monday +2."},
+{q:"A is older than B, B older than C. Youngest?",c:["A","B","C","D"],a:2,e:"C is youngest."},
+{q:"Which is a fruit?",c:["Potato","Apple","Onion","Carrot"],a:1,e:"Apple."},
+{q:"What is half of 100?",c:["25","50","75","100"],a:1,e:"100 ÷ 2."},
+{q:"Which is used to write?",c:["Pen","Book","Chair","Eraser"],a:0,e:"Pen writes."},
+{q:"Sun rises in the?",c:["North","South","East","West"],a:2,e:"East."},
+{q:"Which is round?",c:["Box","Ball","Table","Book"],a:1,e:"Ball."},
+
+{q:"Which is cold?",c:["Fire","Ice","Steam","Smoke"],a:1,e:"Ice."},
+{q:"Which month comes after June?",c:["May","July","August","April"],a:1,e:"July."},
+{q:"5 + 5 =",c:["5","10","15","20"],a:1,e:"10."},
+{q:"Which is an animal?",c:["Car","Dog","Chair","Phone"],a:1,e:"Dog."},
+{q:"If you are standing, you are not?",c:["Sitting","Walking","Running","Jumping"],a:0,e:"Standing ≠ sitting."},
+{q:"Which comes first?",c:["B","C","A","D"],a:2,e:"Alphabet."},
+{q:"Which is heavy?",c:["Feather","Rock","Paper","Leaf"],a:1,e:"Rock."},
+{q:"Which is used to eat?",c:["Knife","Broom","Pencil","Phone"],a:0,e:"Knife."},
+{q:"Which number is biggest?",c:["5","8","10","7"],a:2,e:"10."},
+{q:"All nurses are trained. Maria is a nurse.",c:["Maria is trained","Maria is a doctor","Maria is not trained","Cannot tell"],a:0,e:"Logical conclusion."},
+
+{q:"Which is a vehicle?",c:["Car","Chair","Spoon","Book"],a:0,e:"Car."},
+{q:"What comes after 9?",c:["8","9","10","11"],a:2,e:"10."},
+{q:"Which is sweet?",c:["Salt","Sugar","Pepper","Vinegar"],a:1,e:"Sugar."},
+{q:"Which is used for cleaning?",c:["Soap","Pen","Phone","Book"],a:0,e:"Soap."},
+{q:"Which is not living?",c:["Tree","Dog","Rock","Cat"],a:2,e:"Rock."},
+{q:"Morning comes before?",c:["Night","Afternoon","Evening","Noon"],a:1,e:"Afternoon."},
+{q:"Which is sharp?",c:["Pillow","Knife","Sponge","Paper"],a:1,e:"Knife."},
+{q:"What is 10 less than 50?",c:["30","40","50","60"],a:1,e:"40."},
+{q:"Which is a color?",c:["Red","Dog","Chair","Milk"],a:0,e:"Red."}
+],
+
+normal:[
+{q:"3 pens cost 15 pesos. Cost of 1 pen?",c:["3","4","5","6"],a:2,e:"15 ÷ 3."},
+{q:"5, 10, 20, 40, ?",c:["50","60","80","100"],a:2,e:"×2."},
+{q:"All managers are leaders. Some leaders are teachers.",c:["Some managers may be teachers","All managers teach","No manager teaches","None"],a:0,e:"Possible."},
+{q:"If today is Friday, day after 10 days?",c:["Monday","Tuesday","Sunday","Wednesday"],a:0,e:"10 mod 7 = 3; Friday+3=Monday."},
+{q:"Which is odd?",c:["2","4","6","9"],a:3,e:"9 is odd."},
+{q:"A clerk earns 500/day. 6 days?",c:["2500","3000","3500","4000"],a:1,e:"500×6."},
+{q:"Which comes next: 1,4,9,16,?",c:["20","25","30","36"],a:1,e:"Squares."},
+{q:"All cars have wheels. Bike has wheels.",c:["Bike is car","Bike may be car","Bike not car","Cannot tell"],a:3,e:"Invalid converse."},
+{q:"Which does not belong?",c:["Circle","Square","Triangle","Cube"],a:3,e:"3D."},
+{q:"A is taller than B but shorter than C.",c:["A","B","C","D"],a:2,e:"C tallest."},
+
+{q:"What is 20% of 200?",c:["20","40","60","80"],a:1,e:"0.2×200."},
+{q:"Which is a synonym of fast?",c:["Slow","Quick","Late","Low"],a:1,e:"Quick."},
+{q:"Which number missing: 2,6,12,20,?",c:["28","30","32","36"],a:0,e:"+4,+6,+8."},
+{q:"If 5 workers take 10 days, 10 workers take?",c:["2","5","10","20"],a:1,e:"Inverse proportion."},
+{q:"Which is always true?",c:["All squares rectangles","All rectangles squares","All circles squares","None"],a:0,e:"Geometry."},
+{q:"Which word is different?",c:["Run","Walk","Jump","Sleep"],a:3,e:"Action vs rest."},
+{q:"If 12 ÷ 3 = 4, then 12 ÷ 4 = ?",c:["2","3","4","6"],a:1,e:"3."},
+{q:"Which is heavier?",c:["1kg cotton","1kg iron","Iron heavier","Cotton heavier"],a:0,e:"Same weight."},
+{q:"Which comes next: A, C, E, ?",c:["F","G","H","I"],a:1,e:"+2 letters."},
+{q:"Which is used for measurement?",c:["Scale","Pen","Eraser","Phone"],a:0,e:"Scale."},
+
+{q:"If today is Sunday, yesterday was?",c:["Friday","Saturday","Monday","Thursday"],a:1,e:"Saturday."},
+{q:"Which is not a profession?",c:["Teacher","Doctor","Engineer","Chair"],a:3,e:"Chair."},
+{q:"Which is an example of ratio?",c:["2:3","2+3","2×3","2−3"],a:0,e:"Ratio form."},
+{q:"Which has no diagonal?",c:["Square","Rectangle","Triangle","Rhombus"],a:2,e:"Triangle."},
+{q:"Which is logical?",c:["Rain→wet","Wet→rain","Cold→snow","Hot→ice"],a:0,e:"Cause-effect."},
+{q:"If 8×5 = 40, then 80 ÷ 5 = ?",c:["8","10","16","20"],a:3,e:"80÷5."},
+{q:"Which is smallest?",c:["0.5","0.25","0.75","1"],a:1,e:"0.25."},
+{q:"Which is always odd?",c:["Even+Even","Odd+Odd","Odd+Even","None"],a:2,e:"Odd+Even=Odd."},
+{q:"Which comes next: 10,20,40,80,?",c:["120","140","160","200"],a:2,e:"×2."}
+],
+
+hard:[
+{q:"Five people sit in a row. A not beside B. C beside D. E at end. Middle?",c:["A","B","C","D"],a:2,e:"C or D possible."},
+{q:"3 machines make 3 items in 3 mins. 6 machines make 6 items?",c:["3","6","9","12"],a:0,e:"Same rate."},
+{q:"Which is odd: 64,125,216,343,512?",c:["64","125","216","512"],a:3,e:"Not consecutive cube."},
+{q:"If all judges are lawyers, some lawyers teachers.",c:["Some judges teachers","All judges teachers","None","Cannot tell"],a:0,e:"Possible."},
+{q:"100 days after Friday?",c:["Saturday","Sunday","Monday","Tuesday"],a:1,e:"100 mod 7 = 2."},
+{q:"Train at 60km/h crosses pole in 15s. Length?",c:["200m","250m","300m","150m"],a:1,e:"Speed×time."},
+{q:"A is older than B, C younger than B.",c:["A","B","C","Cannot tell"],a:0,e:"A oldest."},
+{q:"Which comes next: 2,6,12,20,30,?",c:["36","40","42","48"],a:2,e:"+4,+6,+8,+10."},
+{q:"All pilots trained. No trained careless.",c:["No pilot careless","Some pilots careless","All careless","None"],a:0,e:"Syllogism."},
+{q:"If 5x − 3 = 22, x = ?",c:["4","5","6","7"],a:1,e:"x=5."},
+
+{q:"Which pair odd?",c:["Eye-See","Ear-Hear","Tongue-Taste","Nose-Touch"],a:3,e:"Nose smells."},
+{q:"Clock gains 5 min/hour. 12 hours?",c:["30","50","60","70"],a:2,e:"5×12."},
+{q:"Which has equal diagonals?",c:["Rhombus","Rectangle","Trapezoid","Kite"],a:1,e:"Rectangle."},
+{q:"All cats animals. Some animals pets.",c:["Some cats pets","All cats pets","None","Cannot tell"],a:0,e:"Possible."},
+{q:"7,14,28,?,112",c:["42","56","84","96"],a:1,e:"×2."},
+{q:"If today Friday, after 100 days?",c:["Sunday","Monday","Tuesday","Wednesday"],a:0,e:"100 mod 7 = 2."},
+{q:"Which odd?",c:["Copper","Iron","Gold","Plastic"],a:3,e:"Not metal."},
+{q:"Walk 10km N, 6km E, 10km S. Distance?",c:["6","10","12","16"],a:0,e:"North/South cancel."},
+{q:"8 workers 12 days. 12 workers?",c:["6","8","10","12"],a:1,e:"Inverse."},
+{q:"3,9,27,?,243",c:["54","81","90","108"],a:1,e:"×3."},
+
+{q:"All fruits sweet. Lemon fruit.",c:["Lemon sweet","Lemon sour","None","Cannot tell"],a:0,e:"Conclusion."},
+{q:"Odd word?",c:["Democracy","Monarchy","Dictatorship","Anarchy"],a:3,e:"No government."},
+{q:"A=1, Z=26. BAD=?",c:["6","7","8","9"],a:1,e:"2+1+4."},
+{q:"Book:Reading :: Fork:?",c:["Cutting","Eating","Cooking","Washing"],a:1,e:"Tool-use."},
+{q:"Shape with no diagonals?",c:["Square","Rectangle","Triangle","Rhombus"],a:2,e:"Triangle."},
+{q:"20% of number is 40. Number?",c:["100","150","200","250"],a:2,e:"40÷0.2."},
+{q:"Always true?",c:["Squares rectangles","Rectangles squares","Circles squares","None"],a:0,e:"Hierarchy."},
+{q:"Father 30 yrs older, son 10.",c:["30","40","50","60"],a:1,e:"10+30."},
+{q:"ACE, BDF, CEG, ?",c:["DEH","DFH","EFG","FGH"],a:1,e:"Pattern."}
+]
+};
+
+function startQuiz(l){set=q[l];i=0;menu.classList.add("hidden");quiz.classList.remove("hidden");load();}
+function load(){
+  let x=set[i];question.innerText=(i+1)+". "+x.q;
+  explain.innerText="";
+  choices.innerHTML="";
+  x.c.forEach((t,n)=>{
+    let b=document.createElement("button");
+    b.className="choice";b.innerText=t;
+    b.onclick=()=>check(b,n);
+    choices.appendChild(b);
+  });
+}
+function check(b,n){
+  let x=set[i];
+  document.querySelectorAll(".choice").forEach(z=>z.disabled=true);
+  if(n===x.a)b.classList.add("correct");
+  else{b.classList.add("wrong");choices.children[x.a].classList.add("correct");}
+  explain.innerText="Explanation: "+x.e;
+}
+function nextQ(){if(i<set.length-1){i++;load()}else alert("Level complete!")}
+function resetQ(){i=0;load()}
+function backMenu(){quiz.classList.add("hidden");menu.classList.remove("hidden")}
+</script>
+
+</body>
+</html>
